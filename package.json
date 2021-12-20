@@ -2,39 +2,32 @@
   "name": "sliced-cli",
   "version": "0.0.1",
   "description": "Feature-sliced CLI tool",
-  "main": "src/index.js",
-  "type": "module",
+  "private": true,
+  "main": "src/index.ts",
   "scripts": {
     "prestart": "npm run build",
-    "build": "tsc",
+    "build": "tsc --build",
     "start": "node .",
-    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
-    "watch:serve": "node --loader ts-node/esm src/index.ts"
+    "server:watch": "ts-node-dev --prefer-ts true -r tsconfig-paths/register --respawn --transpile-only src/index.ts"
   },
   "dependencies": {
-    "@types/chalk-pipe": "^2.0.0",
-    "@types/meow": "^6.0.0",
-    "@types/minimist": "^1.2.2",
-    "chalk": "^4.1.2",
-    "clear": "^0.1.0",
     "dotenv": "^10.0.0",
-    "figlet": "^1.5.2",
-    "inquirer": "^8.2.0",
-    "meow": "^10.1.2",
-    "minimist": "^1.2.5",
-    "text-to-svg": "^3.1.5"
+    "effector": "^22.1.2",
+    "fs-extra": "^10.0.0",
+    "picocolors": "^1.0.0"
   },
   "devDependencies": {
-    "@types/chalk": "^2.2.0",
-    "@types/inquirer": "^8.1.3",
-    "@types/node": "^16.11.8",
+    "@types/node": "^16.11.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "nodemon": "^2.0.15",
     "prettier": "^2.4.1",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.12.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.5.2"
   }
 }

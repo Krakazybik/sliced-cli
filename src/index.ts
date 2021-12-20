@@ -1,69 +1,18 @@
-import chalk from 'chalk';
-import { clear } from 'console';
-import inquirer, { ListQuestion } from 'inquirer';
-import meow from 'meow';
+import { Render } from 'shared/core/render';
+import { createFileByTemplate } from 'shared/lib/file';
 
-clear();
-
-// Cli creation
-const cli = meow({
-  importMeta: import.meta,
-  flags: {
-    auto: {
-      type: 'string',
-      alias: 'au',
-    },
-    features: {
-      type: 'string',
-      alias: 'fe',
-    },
-    entites: {
-      type: 'string',
-      alias: 'en',
-    },
-    shared: {
-      type: 'string',
-      alias: 'sh',
-    },
-    widgets: {
-      type: 'string',
-      alias: 'wi',
-    },
-  },
-});
-
-const allowedTemplates = ['react', 'dotenv'];
-const template = 'dotenv' in cli?.pkg?.dependencies;
-
-const autoPatterns = {
-  entites: ['form'],
-  pages: ['page'],
+const bootstrap = async () => {
+  try {
+    const file = './dist/entities/hello/index.ts';
+    await createFileByTemplate(file, 'root-template');
+    Render.complete(`file: ${file} created.`);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-// Questions tree
-interface IQuestionTree {
-  question: string;
-  choices: Array<IQuestionTree>;
-  endCallback: () => void | undefined;
-}
+bootstrap();
 
-const selectLayer: ListQuestion<any> = {
-  type: 'list',
-  choices: [
-    chalk.bgMagenta.black(' auto '),
-    chalk.bgGreen.black(' entites '),
-    chalk.bgBlue.black(' features '),
-    chalk.bgGreen.black(' shared '),
-    chalk.bgCyan.black(' pages '),
-    chalk.bgBlueBright.black(' widgets '),
-  ],
-  name: 'layers',
-  message: `${chalk.bgGreen.black(
-    ' Feature-sliced CLI '
-  )}  Detected template: ${template}\nPlease select layer:`,
-};
+console.clear();
 
-// Interactive creation
-inquirer.prompt([selectLayer]).then((answers) => {
-  console.log(answers);
-});
+Render.completeWithError('Somthing wrong');
