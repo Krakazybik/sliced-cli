@@ -1,10 +1,23 @@
 import { readFile } from 'node:fs/promises';
 import Mustache from 'mustache';
-import { FSDCliTemplateItem } from '../config/templates';
+import { FSDCliTemplates } from '../config/templates';
 
-const getTemplate = (templatePath: string) => {
+const genTemplates = async () => {
+  const templates = new Map();
+  await Promise.all(
+    Object.keys(FSDCliTemplates).map(async (templateName) => {
+      templates.set(templateName, await getTemplateFile(FSDCliTemplates[templateName].path));
+    })
+  );
+
+  return (key: string) => templates.get(key);
+};
+
+const getTemplateFile = (templatePath: string) => {
   return readFile(templatePath, 'utf8');
 };
+
+const getTemplateByName = genTemplates();
 
 const getConfigWithRules = (
   config: Record<string, string>,
@@ -18,10 +31,11 @@ const getConfigWithRules = (
   }, {});
 };
 
-export const getFilledTemplate = async (
-  templateConfig: FSDCliTemplateItem,
-  config: Record<string, string>
-) => {
-  const template = await getTemplate(templateConfig.path);
-  return Mustache.render(template, getConfigWithRules(config, templateConfig.rules));
+export const getFilledTemplate = async (name: string, config: Record<string, string>) => {
+  try {
+    const template = (await getTemplateByName)(name);
+    return Mustache.render(template, getConfigWithRules(config, FSDCliTemplates[name].rules));
+  } catch (error) {
+    throw error;
+  }
 };

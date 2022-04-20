@@ -8,7 +8,7 @@ export type FSDCliTemplateItem = {
   };
 };
 
-export const FSDCliTemplates: Record<string, FSDCliTemplateItem> = {
+export const FSDCliTemplates = {
   react: {
     path: resolve(__dirname, './react.tmpl'),
     rules: { name: (name: string) => toCamelCase(name) },

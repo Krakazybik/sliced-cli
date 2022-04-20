@@ -1,6 +1,5 @@
 import fs from 'fs/promises';
 import fse from 'fs-extra';
-import { reactTemplate } from '../config/templates/react';
 
 export const fileIsExist = async (file) => {
   try {
@@ -21,5 +20,5 @@ export const createFile = async (filePath, data = undefined) => {
 };
 
 export const createFileByTemplate = async (filePath, template) => {
-  await createFile(filePath, reactTemplate('hello-hello'));
+  await createFile(filePath, template);
 };
