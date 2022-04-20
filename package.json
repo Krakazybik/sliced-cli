@@ -14,6 +14,7 @@
     "dotenv": "^10.0.0",
     "effector": "^22.1.2",
     "fs-extra": "^10.0.0",
+    "mustache": "^4.2.0",
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
